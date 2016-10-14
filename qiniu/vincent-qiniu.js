@@ -6,6 +6,7 @@
 *rely on [qiniu.js](https://github.com/iwillwen/qiniu.js/tree/develop)
 
 * data: Wed Oct 12 2016 16:23:46 GMT+0800
+
 */
 
 /*
@@ -136,19 +137,21 @@ vin.qiniuInitialize = function(options)
 			for(var i =0;i<files.length;i++){
 
 				var name =null;
+				var file = files[i];
 				if(typeof options.before == "function"){
 					var beforeReturn = options.before(name,files[i]);
 					if(typeof beforeReturn =="object"){
 						name = beforeReturn.name
 								?beforeReturn.name
 								:name;
-						files[i] = beforeReturn.file
+						file = beforeReturn.file
 								?beforeReturn.file
-								:files[i];
+								:file;
+						console.log(file,beforeReturn.file);
 					}				
 				}
 				//upload files
-				bucket.putFile(name,files[i])
+				bucket.putFile(name,file)
 				.then(
 					function(reply){
 					    // success
@@ -172,6 +175,68 @@ vin.qiniuInitialize = function(options)
 					);
 			}
 		}
+}
+
+/*
+##  vin.putFile(options)
+just upload file to qiniu
+### parameters
+*	`file` {object} file to upload
+*	`options` {object} valid keys:
+	*	`domains` {string} domains to upload
+	*	`uptoken` {string} upload token
+	*	`before` {function} call:before(name,file);called when file 
+	selected but before upload start.We can do something with name or file,
+	return should be an object with keys `name` and `file`.
+	*	`success` {function} call:success(reply);callback when upload done
+	*	`error`	{function} call:error(err);callback when error comes out
+	*	`title` upload title defaut:"vincent-qiniu"
+*/
+vin.putFile =function(file,options)
+{
+	if (!(typeof options == "object")) {
+			console.error("putFile:options is undefined");
+			return false;
+		}
+
+	var bucket = qiniu.bucket(
+		options.title?options.title:"vincent-qiniu"
+		,{
+			putToken:options.uptoken
+			,url:options.domains
+		});
+
+	var upfile = file;
+	var name =null;
+	if(typeof options.before == "function"){
+		var beforeReturn = options.before(name,upfile);
+		if(typeof beforeReturn =="object"){
+			name = beforeReturn.name
+					?beforeReturn.name
+					:name;
+			upfile = beforeReturn.file
+					?beforeReturn.file
+					:upfile;
+		}				
+	}
+	//upload files
+	bucket.putFile(name,upfile)
+	.then(
+		function(reply){
+		    // success
+		    if (typeof options.success == "function") {
+		    	options.success(reply);
+		    }
+		    	formDom.reset(); 
+		}
+		,function(err){
+			if (typeof options.error == "function") {
+				options.error(err);
+			}
+				formDom.reset();     
+		}
+		);	
+	}
 }
 
 })(vin)
