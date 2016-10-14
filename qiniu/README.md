@@ -25,3 +25,24 @@
 	*	`success` {function} call:success(reply);callback when upload done
 	*	`error`	{function} call:error(err);callback when error comes out
 	*	`title` upload title defaut:"vincent-qiniu"
+
+## example 
+    vin.qiniuInitialize({
+				uptoken:result.uptoken
+				,domains:"http://mydomains.bkt.clouddn.com/"
+				,button:document.getElementById('mybutton')
+				,before:function(name,file){
+					var beforeReturn = {};
+					beforeReturn.name = new Date().getTime();
+					beforeReturn.file = "what you want to do with upload file";
+					return beforeReturn;					
+				}
+				,success:function(reply){
+					//any things you want to do when uploading succeeded
+				    var sourceLink = domains
+				    	+reply.key;
+				}
+				,error:function(err){
+					//any things you want to do when uploading failed			
+				}
+			});
