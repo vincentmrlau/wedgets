@@ -144,8 +144,7 @@ vin.qiniuInitialize = function(options)
 							:files[i];
 				}				
 			}
-			commonpart.callLoading("正在上传，请稍后...");
-
+			//upload files
 			bucket.putFile(name,files[i])
 			.then(
 				function(reply){
