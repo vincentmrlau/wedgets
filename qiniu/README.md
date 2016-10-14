@@ -1,7 +1,7 @@
 ##   INTRO   
 *   improve qiniu SDK.
 
-*rely on [qiniu.js](https://github.com/iwillwen/qiniu.js/tree/develop)
+* rely on [qiniu.js](https://github.com/iwillwen/qiniu.js/tree/develop)
 
 * data: Wed Oct 12 2016 16:23:46 GMT+0800
 
