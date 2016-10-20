@@ -4,7 +4,7 @@
 *  This is a JavaScript Library aiming at making canvas things 
  More simple and More efficient.
 
-*rely on [fabric.js](http://fabricjs.com/)
+* rely on [fabric.js](http://fabricjs.com/)
 
 * data: Mon, 10 Oct 2016 14:11:54 GMT
 */
@@ -25,13 +25,6 @@
 
 (function(vf){
 	"use strict";
-
-//insure fabric.js is concluded
-if(!fabric){
-	console.error("vincent-fabric relys on fabric.js  (http://fabricjs.com/)");
-	return false;
-}
-
 
 /*
 ## vf.canvasObjSelectEventOn(canvas,handlers)
@@ -104,12 +97,12 @@ vf.canvasObjSelectEventOn = function(canvas,handlers)
 ## vf.setCvsBorderFromImgdom(imgDom,canvas,callback)
 use an image dom as the border of Fabric Canvas Instance
 ### parameters
-*		`imgDom` [object] must be img html dom object
-*		`canvas` [object] canvas must be fabric canvas object
-*		`callback` [funtion] [optional] call when all things done
+*		`imgDom` {object} must be img html dom object
+*		`canvas` {object} canvas must be fabric canvas object
+*		`callback` {funtion} [optional] call when all things done
 
 ### return
-*		`imgBorder` [object] an Fabric Image Instance
+*		`imgBorder` {object} an Fabric Image Instance
 */
 vf.setCvsBorderFromImgdom = function(imgDom,canvas,callback)
 {	
@@ -152,12 +145,12 @@ vf.setCvsBorderFromImgdom = function(imgDom,canvas,callback)
 ## vf.changeCvsBorderFromImgdom(imgDom,canvas,callback)
 use an image dom to change the border of Fabric Canvas Instance
 ###	parameters 
-*	imgDom  [object] must be img html dom object
-*	canvas  [object] canvas must be fabric canvas object
-*	allback  [funtion] [optional]  call when all things done
+*	imgDom  {object} must be img html dom object
+*	canvas  {object} canvas must be fabric canvas object
+*	allback  {funtion} [optional]  call when all things done
 
 ###	return
-*	mgBorder [object] an Fabric Image Instance
+*	mgBorder {object} an Fabric Image Instance
 */
 vf.changeCvsBorderFromImgdom = function(imgDom,canvas,callback)
 {	
@@ -194,6 +187,19 @@ vf.changeCvsBorderFromImgdom = function(imgDom,canvas,callback)
 			});
 		return canvas.overlayImage;
 	}	
+}
+
+/*
+## vf.hiddenOverlayImage(canvas)
+### parameter 
+* 	`canvas` {fabric canvas object}
+*/
+vf.hiddenOverlayImage = function(canvas)
+{
+	canvas.overlayImage.set({
+		visible:false
+	});
+	canvas.renderAll();
 }
 
 
@@ -256,6 +262,17 @@ vf.changeImgFromImgDom = function(imgObj,canvas,imgURL,callback,options)
 
 }
 
+/*
+### vf.addtext(text,canvas,callback)
+add a text to canvas
+### parameters
+*	`text` {string} the text to add
+*	`canvas` {object}
+*	`callback` {function} call:callback(toAddText)
+	we can do some thing whit toAddText by callback
+### return 
+	`toAddText` {object}
+*/
 vf.addText = function(text,canvas,callback)
 {
 	try{
@@ -265,8 +282,38 @@ vf.addText = function(text,canvas,callback)
 		if(typeof callback == "function"){
 			callback(toAddText);
 		}
+		return toAddText;
 	}catch(e){throw(e);}	
 }
+
+/*
+## vf.fabricCanvasInit(canvasDomId,canvasdata,callback)
+Initialize a fabric canvas with Preset Canvas data
+### parameters
+*	`canvasDomId` {"string"} the lower canvas
+*	`canvasdata` {JSON|object} [optional] the preset object
+*	`callback` {function} call:callback(canvas)
+### return
+*	`canvas` {fabric object}
+*/
+vf.fabricCanvasInit = function(canvasDomId,canvasdata,callback)
+{
+	try{
+		var canvas = new fabric.Canvas(canvasDomId);
+		if (canvasdata) {
+			
+			canvas.loadFromJSON(canvasdata
+				, function(){
+					canvas.renderAll.bind(canvas);
+					if(typeof callback == "function"){
+						callback(canvas);
+					}
+				});
+		}	
+		return canvas;
+	}catch(e){throw(e);}	
+}
+
 
 })(vf);
 

@@ -73,7 +73,6 @@ vin.qiniuInitialize = function(options)
 			
 			//if display = none, show it first
 			if(window.getComputedStyle(options.button).display =="none"){
-				// console.log("none");
 				var isNone = true;
 				options.button.style.display = "inline-block";
 			}
@@ -89,8 +88,7 @@ vin.qiniuInitialize = function(options)
 			var buttonBorderTop = parseFloat(buttonStyle.borderTop);
 			var buttonBorderBottom = parseFloat(buttonStyle.borderBottom);
 			setWidth = buttonWidth;
-			setHight = buttonHeight;
-			console.log($(options.button).css("width"));					
+			setHight = buttonHeight;					
 			formDom.style.position = "relative";					
 			formDom.style.display = "inline-block";
 			formDom.style.top = (0-buttonPaddingTop-buttonBorderTop+2)+"px";
