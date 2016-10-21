@@ -25,7 +25,7 @@
 		return false;
 	}
 /*
-##  vin.qiniuInitialize(options)
+##  vin.setInputfileStyle(options)
 ### parameters
 *	`options` {object} valid keys:
 	*	`button` {htmlElement} clicked to call file-select-window
