@@ -145,7 +145,7 @@ vin.qiniuInitialize = function(options)
 						file = beforeReturn.file
 								?beforeReturn.file
 								:file;
-						console.log(file,beforeReturn.file);
+						// console.log(file,beforeReturn.file);
 					}				
 				}
 				//upload files
@@ -235,6 +235,6 @@ vin.putFile =function(file,options)
 		}
 		);	
 	}
-}
+
 
 })(vin)
